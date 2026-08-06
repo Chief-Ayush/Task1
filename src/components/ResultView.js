@@ -38,6 +38,21 @@ export default function ResultView({ photo, name, role, builderTitle, onReset })
     });
   }, []);
 
+  const isMobileDevice = useCallback(() => {
+    if (typeof navigator === 'undefined') {
+      return false;
+    }
+
+    const ua = navigator.userAgent || '';
+    const mobilePattern = /Android|iPhone|iPad|iPod|Mobile/i;
+
+    if (navigator.userAgentData?.mobile) {
+      return true;
+    }
+
+    return mobilePattern.test(ua);
+  }, []);
+
   // Generate high-quality image from the hidden full-size badge
   const generateImage = useCallback(async () => {
     const node = hiddenBadgeRef.current;
@@ -94,7 +109,8 @@ export default function ResultView({ photo, name, role, builderTitle, onReset })
   // Share on X handler
   const handleShare = useCallback(async () => {
     setSharing(true);
-    const shareWindow = window.open('', '_blank', 'width=550,height=420');
+    const mobileShare = isMobileDevice();
+    const shareWindow = mobileShare ? null : window.open('', '_blank', 'width=550,height=420');
 
     try {
       const dataUrl = await generateImage();
@@ -121,7 +137,9 @@ export default function ResultView({ photo, name, role, builderTitle, onReset })
       const tweetText = `Just built my badge at Hacker House Goa! 🌴🚀`;
       const intentUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(cardUrl)}&hashtags=FrameInGoa,HackerHouseGoa`;
 
-      if (shareWindow) {
+      if (mobileShare) {
+        window.location.assign(intentUrl);
+      } else if (shareWindow) {
         shareWindow.location.href = intentUrl;
         shareWindow.focus();
       } else {

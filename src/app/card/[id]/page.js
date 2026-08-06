@@ -13,6 +13,7 @@ export async function generateMetadata(props) {
   return {
     title: 'My Hacker House Goa Badge | #FrameInGoa',
     description: 'Check out my builder badge from Hacker House Goa 2026! 🌴',
+    metadataBase: new URL(baseUrl),
     openGraph: {
       title: 'My Hacker House Goa Badge | #FrameInGoa',
       description: 'Check out my builder badge from Hacker House Goa 2026! 🌴',
@@ -31,6 +32,8 @@ export async function generateMetadata(props) {
       card: 'summary_large_image',
       title: 'My Hacker House Goa Badge | #FrameInGoa',
       description: 'Check out my builder badge from Hacker House Goa 2026! 🌴',
+      creator: '@FrameInGoa',
+      site: '@FrameInGoa',
       images: [
         {
           url: imageUrl,
