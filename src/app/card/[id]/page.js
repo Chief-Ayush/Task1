@@ -50,11 +50,9 @@ export default async function CardPage(props) {
   const { id } = params;
   const decodedId = decodeURIComponent(id);
   const imageUrl = searchParams.image || searchParams.src || buildCloudinaryImageUrl(process.env.CLOUDINARY_CLOUD_NAME, decodedId);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const shareUrl = `${baseUrl}/card/${encodeURIComponent(id)}${imageUrl ? `?image=${encodeURIComponent(imageUrl)}` : ''}`;
 
   const tweetText = 'Check out my builder badge from Hacker House Goa 2026! 🌴';
-  const twitterShareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}&hashtags=FrameInGoa,HackerHouseGoa`;
+  const twitterShareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(imageUrl)}&hashtags=FrameInGoa,HackerHouseGoa`;
 
   return (
     <div className="app">

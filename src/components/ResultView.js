@@ -128,14 +128,11 @@ export default function ResultView({ photo, name, role, builderTitle, onReset })
         throw new Error(data.error || 'Upload failed');
       }
 
-      // Build share URL — the card page that has OG meta tags
-      const baseUrl = window.location.origin;
-      const publicId = encodeURIComponent(data.publicId);
-      const cardUrl = `${baseUrl}/card/${publicId}?image=${encodeURIComponent(data.url)}`;
+      const imageUrl = data.url;
 
       // Build X intent URL
       const tweetText = `Just built my badge at Hacker House Goa! 🌴🚀`;
-      const intentUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(cardUrl)}&hashtags=FrameInGoa,HackerHouseGoa`;
+      const intentUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(imageUrl)}&hashtags=FrameInGoa,HackerHouseGoa`;
 
       if (mobileShare) {
         window.location.assign(intentUrl);
