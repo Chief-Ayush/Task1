@@ -20,12 +20,21 @@ export default function PhotoCapture({ onPhotoSelected }) {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
     }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
   }, []);
 
   // Start camera
   const startCamera = useCallback(async (facing) => {
     setCameraError(null);
     stopCamera();
+
+    // Check if mediaDevices API is supported
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setCameraError('Camera API is not supported in this browser. Please try uploading a photo instead.');
+      return;
+    }
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -73,15 +82,17 @@ export default function PhotoCapture({ onPhotoSelected }) {
     const video = videoRef.current;
     const canvas = canvasRef.current || document.createElement('canvas');
 
-    // Capture at video's native resolution
-    const size = Math.min(video.videoWidth, video.videoHeight);
+    // Capture at video's native resolution, fallback if zero
+    const videoWidth = video.videoWidth || 640;
+    const videoHeight = video.videoHeight || 480;
+    const size = Math.min(videoWidth, videoHeight);
     canvas.width = size;
     canvas.height = size;
 
     const ctx = canvas.getContext('2d');
     // Center crop
-    const sx = (video.videoWidth - size) / 2;
-    const sy = (video.videoHeight - size) / 2;
+    const sx = (videoWidth - size) / 2;
+    const sy = (videoHeight - size) / 2;
     ctx.drawImage(video, sx, sy, size, size, 0, 0, size, size);
 
     const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
@@ -165,7 +176,7 @@ export default function PhotoCapture({ onPhotoSelected }) {
           >
             <span className="upload-zone__icon">🌴</span>
             <p className="upload-zone__text">Drop your photo here</p>
-            <p className="upload-zone__hint">or tap to browse • JPG, PNG, HEIC</p>
+            <p className="upload-zone__hint">or tap to browse • JPG, PNG</p>
             <input
               ref={fileInputRef}
               type="file"

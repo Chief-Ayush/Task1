@@ -10,6 +10,8 @@ export async function generateMetadata(props) {
   const imageUrl = searchParams.image || searchParams.src || buildCloudinaryImageUrl(process.env.CLOUDINARY_CLOUD_NAME, decodeURIComponent(id));
   const pageUrl = `${baseUrl}/card/${encodedId}${imageUrl ? `?image=${encodeURIComponent(imageUrl)}` : ''}`;
 
+  const ogImageUrl = `${baseUrl}/api/og/${encodedId}${imageUrl ? `?src=${encodeURIComponent(imageUrl)}` : ''}`;
+
   return {
     title: 'My Hacker House Goa Badge | #FrameInGoa',
     description: 'Check out my builder badge from Hacker House Goa 2026! 🌴',
@@ -20,9 +22,9 @@ export async function generateMetadata(props) {
       url: pageUrl,
       images: [
         {
-          url: imageUrl,
-          width: 1080,
-          height: 1350,
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
           alt: 'Hacker House Goa Badge',
         },
       ],
@@ -36,7 +38,7 @@ export async function generateMetadata(props) {
       site: '@FrameInGoa',
       images: [
         {
-          url: imageUrl,
+          url: ogImageUrl,
           alt: 'Hacker House Goa Badge',
         },
       ],
@@ -51,8 +53,12 @@ export default async function CardPage(props) {
   const decodedId = decodeURIComponent(id);
   const imageUrl = searchParams.image || searchParams.src || buildCloudinaryImageUrl(process.env.CLOUDINARY_CLOUD_NAME, decodedId);
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const encodedId = encodeURIComponent(id);
+  const pageUrl = `${baseUrl}/card/${encodedId}${imageUrl ? `?image=${encodeURIComponent(imageUrl)}` : ''}`;
+
   const tweetText = 'Check out my builder badge from Hacker House Goa 2026! 🌴';
-  const twitterShareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(imageUrl)}&hashtags=FrameInGoa,HackerHouseGoa`;
+  const twitterShareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(pageUrl)}&hashtags=FrameInGoa,HackerHouseGoa`;
 
   return (
     <div className="app">

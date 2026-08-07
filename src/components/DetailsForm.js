@@ -8,6 +8,7 @@ export default function DetailsForm({ onSubmit, onBack }) {
   const [role, setRole] = useState('');
   const [builderTitle, setBuilderTitle] = useState('');
   const [titleKey, setTitleKey] = useState(0); // for re-render animation
+  const [isRerolling, setIsRerolling] = useState(false);
 
   // Generate title when role changes
   useEffect(() => {
@@ -21,6 +22,8 @@ export default function DetailsForm({ onSubmit, onBack }) {
     if (role) {
       setBuilderTitle(getRandomTitle(role));
       setTitleKey(prev => prev + 1);
+      setIsRerolling(true);
+      setTimeout(() => setIsRerolling(false), 500); // matches CSS spin animation duration
     }
   }, [role]);
 
@@ -86,7 +89,7 @@ export default function DetailsForm({ onSubmit, onBack }) {
               onClick={rerollTitle}
               aria-label="Get a new builder title"
             >
-              <span className="builder-title__reroll-icon">🎲</span>
+              <span className={`builder-title__reroll-icon ${isRerolling ? 'builder-title__reroll-icon--spin' : ''}`}>🎲</span>
               Reroll
             </button>
           </div>
