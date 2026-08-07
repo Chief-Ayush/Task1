@@ -1,3 +1,48 @@
+function PalmLeaf({ className }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 120 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M10 110C30 90 60 60 100 20"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+      {/* Fronds left side */}
+      <path d="M30 90C20 75 8 72 5 78" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M45 75C35 57 20 50 15 58" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M60 60C50 40 32 32 25 40" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M75 45C65 23 45 15 38 23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M90 30C80 8 58 0 50 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      
+      {/* Fronds right side */}
+      <path d="M30 90C38 78 50 80 55 85" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M45 75C55 60 68 62 72 68" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M60 60C70 45 83 47 88 53" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M75 45C85 30 98 32 102 38" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function SparkIcon({ className }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M12 2L14.8 9.2L22 12L14.8 14.8L12 22L9.2 14.8L2 12L9.2 9.2L12 2Z" />
+    </svg>
+  );
+}
+
 export default function BadgeCard({ photo, name, role, builderTitle, isPreview = false }) {
   const containerStyle = isPreview ? {
     width: '100%',
@@ -17,9 +62,9 @@ export default function BadgeCard({ photo, name, role, builderTitle, isPreview =
       <div className="badge-card__border-glow" />
       <div className="badge-card__border" />
 
-      {/* Palm decorations */}
-      <div className="badge-card__palm badge-card__palm--left" aria-hidden="true">🌴</div>
-      <div className="badge-card__palm badge-card__palm--right" aria-hidden="true">🌴</div>
+      {/* Palm decorations - now using custom SVGs */}
+      <PalmLeaf className="badge-card__palm-svg badge-card__palm-svg--left" />
+      <PalmLeaf className="badge-card__palm-svg badge-card__palm-svg--right" />
 
       {/* Header */}
       <div className="badge-card__header">
@@ -42,7 +87,11 @@ export default function BadgeCard({ photo, name, role, builderTitle, isPreview =
 
       {/* Info */}
       <div className="badge-card__info">
-        <p className="badge-card__builder-title">✦ {builderTitle} ✦</p>
+        <div className="badge-card__builder-title-wrapper">
+          <SparkIcon className="badge-card__spark badge-card__spark--left" />
+          <p className="badge-card__builder-title">{builderTitle}</p>
+          <SparkIcon className="badge-card__spark badge-card__spark--right" />
+        </div>
         <h2 className="badge-card__name">{name}</h2>
         <p className="badge-card__role">{role}</p>
       </div>

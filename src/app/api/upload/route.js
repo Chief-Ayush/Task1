@@ -28,6 +28,21 @@ export async function POST(request) {
       );
     }
 
+    if (typeof image !== 'string' || !image.startsWith('data:image/')) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid image format. Expected a base64 image data URL.' },
+        { status: 400 }
+      );
+    }
+
+    // Limit image size to ~12MB of base64 text (which is ~8-9MB file size)
+    if (image.length > 12 * 1024 * 1024) {
+      return NextResponse.json(
+        { success: false, error: 'Image payload is too large. Maximum size is 8MB.' },
+        { status: 400 }
+      );
+    }
+
     const uploadResponse = await cloudinary.uploader.upload(image, {
       folder: 'hh-goa-badges',
     });
