@@ -4,8 +4,7 @@
    Tropical Goa Vibes 🌴
    ============================================ */
 
-/* --- Google Fonts --- */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap');
+/* --- Fonts are loaded via next/font/google in layout.js --- */
 
 /* --- CSS Custom Properties --- */
 :root {
@@ -45,9 +44,9 @@
   --gradient-bg: linear-gradient(160deg, var(--navy) 0%, var(--navy-light) 40%, var(--navy-mid) 100%);
 
   /* Typography */
-  --font-heading: 'Outfit', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-accent: 'Dancing Script', cursive;
+  --font-heading: var(--font-outfit), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-accent: var(--font-dancing), cursive;
 
   /* Spacing */
   --space-xs: 4px;
